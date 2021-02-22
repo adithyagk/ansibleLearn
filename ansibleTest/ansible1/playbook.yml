@@ -1,0 +1,6 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  	- name: create directory
+  	- shell: mkdir testec2

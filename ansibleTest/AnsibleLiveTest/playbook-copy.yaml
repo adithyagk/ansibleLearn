@@ -1,0 +1,9 @@
+-
+ name: Copy Contents
+ hosts: target1
+ tasks:
+   - name: Copy contents to server1
+     copy:
+       src: /home/adithya/Desktop/ansibleTest/AnsibleLiveTest/ansibleTestFiles/testfiles.conf
+       dest: /home/ec2-user/ansibleTest
+

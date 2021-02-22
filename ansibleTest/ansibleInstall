@@ -1,0 +1,42 @@
+pip3 install ansible
+
+
+create directory
+go inside
+"touch inventory"
+install sublime text
+"subl ."
+
+
+inventory group of servers -> list the servers, can be ip or name
+
+
+
+ansible -i inventory --private-key ansibletest.pem example -m ping -u ec2-user
+
+
+after configuring user and ec2 pem file in ansible.cfg
+ansible example -m ping(ping module)
+ansible example -a "free -h" -> running commands against server
+
+
+-m -> module -> by default ansible uses command module
+-a -> arguments, 
+
+arguments used till now -> free -h, date
+
+modules: command, script, yum, service
+
+
+[group]
+
+
+ansible playbook
+----------------
+
+
+
+
+
+
+

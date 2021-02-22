@@ -1,0 +1,107 @@
+Using Variables
+
+{{ variable_name }}
+
+
+name:
+hosts:
+tasks:
+  - name:
+    server: {{ web_server_from_inventory_file }}
+    
+    
+    ----------------------------------------------
+    
+-
+    name: 'Update nameserver entry into resolv.conf file on localhost'
+    hosts: localhost
+    vars:
+      car_model: BMW M3
+      country_name: USA
+      title: Systems Engineer
+    tasks:
+        -
+            name: 'Print my car model'
+            command: 'echo "My car''s model is {{ car_model }}"'
+        -
+            name: 'Print my country'
+            command: 'echo "I live in the {{ country_name }}"'
+        -
+            name: 'Print my title'
+            command: 'echo "I work as a {{ title }}"'
+
+Conditionals and register
+-------------------------
+
+-
+    name: 'Add name server entry if not already entered'
+    hosts: localhost
+    tasks:
+        -
+            shell: 'cat /etc/resolv.conf'
+            register: command_output
+        -
+            shell: 'echo "nameserver 10.0.250.10" >> /etc/resolv.conf'
+            when: "command_output.stdout.find(\"10.0.250.10\") == -1"
+
+
+------------------------------------------------------------------
+
+
+loops
+------
+name:
+hosts:
+tasks:
+  - user: name='{{ item.name }}' uid='{{ item.uid }}'
+    loop:				or with_{DIR} -> with_items, with_url etc
+      - name: abc
+        uid: 123
+      - name: bcd
+        uid: 345
+        
+---------------------
+
+-
+    name: 'Print list of fruits'
+    hosts: localhost
+    vars:
+        fruits:
+            - Apple
+            - Banana
+            - Grapes
+            - Orange
+    tasks:
+        -
+            command: "echo\"{{item}}\""
+            with_items: "{{fruits}}"
+---------------------
+
+    name: 'Install required packages'
+    hosts: localhost
+    vars:
+        packages:
+            - httpd
+            - binutils
+            - glibc
+            - ksh
+            - libaio
+            - libXext
+            - gcc
+            - make
+            - sysstat
+            - unixODBC
+            - mongodb
+            - nodejs
+            - grunt
+    tasks:
+        -
+            yum: "name={{ item }} state=present"
+            with_items: "{{packages}}"
+
+
+
+----------------------------------------------------------------
+
+
+

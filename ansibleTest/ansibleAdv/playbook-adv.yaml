@@ -1,0 +1,26 @@
+-
+        name: Deploy Web Application
+        hosts: all
+        tasks:
+          - name: Ping server
+            ping:
+          - name: Install required dependencies
+            apt: name={{ item }} state=installed
+            loop:
+              - python3
+              - python-setuptools
+              - python-dev
+              - build-essential
+              - python-pip
+         - name: Install MySQL database
+           apt: name={{ item }} state=installed
+           loop:
+             - mysql-server
+             - mysql-client
+         - name: Start MySQLservice
+           service: name=mysql state=started enabled=yes
+         - name: create a mysql database
+           mysql_db: name=employee_db state=present
+           
+         - name: Create Database User
+           mysql_user: name=db_user password=Passw0rd

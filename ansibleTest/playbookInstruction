@@ -1,0 +1,90 @@
+PlayBooks are written in yaml format
+
+Playbooks are a set of yaml consisting a certain set of plays or task
+task: action to be performed on a host
+
+Playbook is a list of dictionary
+
+Each play is a dictionary consisting of name,host and task
+task is a list so order matters
+----------------------------------------------
+
+
+modules :- Different actions run by tasks are called modules
+
+ansible-playbook <playbook> 
+
+
+-----------------------------------------------------------------
+
+-
+    name: 'Stop the web services on web server nodes'
+    hosts: web_nodes
+    tasks:
+        -
+            name: 'Stop the web services on web server nodes'
+            command: "servicehttpdstop"
+-
+    name: 'Shutdown the database services on db server nodes'
+    hosts: db_nodes
+    tasks:
+        -
+            name: 'Shutdown the database services on db server nodes'
+            command: "servicemysqlstop"
+-
+    name: 'Restart all servers (web and db) at once'
+    hosts: all_nodes
+    tasks:
+        -
+            name: 'Restart all servers (web and db) at once'
+            command: /sbin/shutdown -r
+-
+    name: 'Start the database services on db server nodes'
+    hosts: db_nodes
+    tasks:
+        - 
+            name: 'Start the database services on db server nodes'
+            command: "servicemysqlstart"
+-
+    name: 'Start the web services on web server nodes'
+    hosts: web_nodes
+    tasks:
+        -
+            name: 'Start the web services on web server nodes'
+            command: "servicehttpdstart"
+            
+            
+            
+            
+            
+            
+            
+            
+            
+------------------------------------------------------------------------------
+
+
+-
+    name: 'Execute a script on all web server nodes and start httpd service'
+    hosts: web_nodes
+    tasks:
+        -
+            name: 'Update entry into /etc/resolv.conf'
+            lineinfile:
+                path: /etc/resolv.conf
+                line: 'nameserver 10.1.250.10'
+        -
+            name: 'create a new web user'
+            user:
+              name: web_user
+              uid: 1040
+              group: developers
+        -
+            name: 'Execute a script'
+            script: /tmp/install_script.sh
+        -
+            name: 'Start httpd service'
+            service:
+                name: httpd
+                state: present
+

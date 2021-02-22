@@ -1,0 +1,9 @@
+-
+   name: Synchornize with host
+   hosts: target1
+   tasks:
+     - name: Sync template
+       synchronize:
+          src: /home/adithya/Desktop/ansibleTest/AnsibleLiveTest/ansibleTestFiles
+          dest: /home/ec2-user/ansibleReceiver
+
